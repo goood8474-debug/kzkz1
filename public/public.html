@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>RD → pCloud 업로더</title>
+</head>
+<body style="font-family:sans-serif; max-width:600px; margin:auto; padding:2rem;">
+  <h2>🧲 RD → ☁️ pCloud 자동 업로더</h2>
+  <form id="uploadForm">
+    <label>Real-Debrid 토큰:</label><br>
+    <input name="rdToken" required style="width:100%"><br><br>
+
+    <label>마그넷 링크:</label><br>
+    <input name="magnet" required style="width:100%"><br><br>
+
+    <label>pCloud Auth:</label><br>
+    <input name="pcloudAuth" required style="width:100%"><br><br>
+
+    <label>pCloud Folder ID:</label><br>
+    <input name="folderid" required style="width:100%"><br><br>
+
+    <button type="submit">🚀 업로드 시작</button>
+  </form>
+  <pre id="result"></pre>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const result = document.getElementById('result');
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const data = new URLSearchParams(new FormData(form)).toString();
+      result.textContent = '⏳ 처리 중...';
+
+      const res = await fetch(`/api/upload?${data}`);
+      const json = await res.json();
+      result.textContent = JSON.stringify(json, null, 2);
+    };
+  </script>
+</body>
+</html>
